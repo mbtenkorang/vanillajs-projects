@@ -17,6 +17,15 @@ btns.forEach(function (btn) {
       //   console.log("reset", count);
       count = 0;
     }
+    if (count > 0) {
+      value.style.color = "green";
+    }
+    if (count < 0) {
+      value.style.color = "red";
+    }
+    if (count === 0) {
+      value.style.color = "#333";
+    }
     value.textContent = count;
   });
 });
