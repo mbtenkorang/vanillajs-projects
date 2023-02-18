@@ -72,27 +72,85 @@ const menu = [
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "beef steak",
+    category: "dinner",
+    price: 34.99,
+    img: "./images/item-10.jpeg",
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+  },
 ];
 
 // Select requisite items
 const sectionCenter = document.querySelector(".section-center");
+const btnContainer = document.querySelector(".btn-container");
 
 window.addEventListener("DOMContentLoaded", function () {
-  return displayMenu();
+  addButtonsWithFunctions();
+  displayMenu(menu);
 });
 
-function displayMenu() {
-  let displayMenu = menu
-    .map(function (menuItem) {
-      // pass each menu item to render function
-      return renderMenuItems(menuItem);
+// Render buttons dynamically
+
+function addButtonsWithFunctions() {
+  // render buttons
+  displayButtons();
+  const filterBtns = document.querySelectorAll(".filter-btn");
+
+  // attachh event listeners
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      // console.log("Clicked");
+      const category = e.currentTarget.dataset.id;
+      const menuCategory = menu.filter(function (menuItem) {
+        if (menuItem.category === category) {
+          return menuItem;
+        }
+      });
+      if (category === "all") {
+        displayMenu(menu);
+      } else {
+        displayMenu(menuCategory);
+      }
+    });
+  });
+}
+
+function displayButtons() {
+  // get array for menu categories
+  const menuCategory = menu.reduce(
+    function (values, item) {
+      if (!values.includes(item.category)) {
+        values.push(item.category);
+      }
+      return values;
+    },
+    ["all"]
+  );
+
+  // render buttons
+  let output = menuCategory
+    .map(function (e) {
+      return `<button class="filter-btn" type="button" data-id="${e}">${e}</button>`;
     })
     .join("");
-  // Attach rendered elements to parent element
+  return (btnContainer.innerHTML = output);
+}
+
+/**
+ * functions to render menu items
+ */
+function displayMenu(menu) {
+  let displayMenu = menu
+    .map(function (menuItem) {
+      return menuItemCard(menuItem);
+    })
+    .join("");
   sectionCenter.innerHTML = displayMenu;
 }
 
-function renderMenuItems(menuItem) {
+function menuItemCard(menuItem) {
   return `
   <article class="menu-item">
   <img src="${menuItem.img}" alt="${menuItem.title}" class="photo">
