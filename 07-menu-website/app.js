@@ -1,3 +1,4 @@
+// Data
 const menu = [
   {
     id: 1,
@@ -72,3 +73,36 @@ const menu = [
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
 ];
+
+// Select requisite items
+const sectionCenter = document.querySelector(".section-center");
+
+window.addEventListener("DOMContentLoaded", function () {
+  return displayMenu();
+});
+
+function displayMenu() {
+  let displayMenu = menu
+    .map(function (menuItem) {
+      // pass each menu item to render function
+      return renderMenuItems(menuItem);
+    })
+    .join("");
+  // Attach rendered elements to parent element
+  sectionCenter.innerHTML = displayMenu;
+}
+
+function renderMenuItems(menuItem) {
+  return `
+  <article class="menu-item">
+  <img src="${menuItem.img}" alt="${menuItem.title}" class="photo">
+  <div class="item-info">
+    <header>
+      <h4>${menuItem.title}</h4>
+      <h4 class="price">${"$" + menuItem.price}</h4>
+    </header>
+    <p class="item-text">${menuItem.desc}</p>
+  </div>
+</article>
+  `;
+}
